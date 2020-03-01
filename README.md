@@ -47,6 +47,7 @@ public:
 ### 2, Leetcode440 字典序的第K小数字  
 + 题意：问1到N，按照字典序排序，第K大的是？  
 + 思路：一层一层的试探。  这个题第一次做估计还是有点难的。
+> 待补
 
 ---
 ---
@@ -70,6 +71,40 @@ public:
         for(auto i:res) sum+=i;
         return sum;
     }
+};
+```
+---
+---
+### 4,146. LRU缓存机制  
++ 题意：设计一种算法，满足：给定一个大小为N的容器，支持O1插入一个数，删去一个数，而且找到最远的插入的一个。
++ 思路：关键就在于在于要O1删去之间的某个数，普通的栈、队列高效的做到。 这里用了一个小技巧，就是记下在队列中的位置（迭代器iterator完成），那么就可以快速删去了。其他部分和普通list一样。
+```
+class LRUCache {
+public:
+    LRUCache(int capacity):
+        capacity(capacity) {}
+    
+    int get(int key) {
+        if(mp.find(key)==mp.end()) return -1;
+        put(key,mp[key]->second);
+        return mp[key]->second;
+    }
+    //关键字key，对应值为val；
+    //如果存在key，删去
+    //如果容量不够，删去头
+    void put(int key, int value) {
+        if(mp.find(key)!=mp.end()) lis.erase(mp[key]);
+        else if(mp.size()==capacity){
+            mp.erase(lis.back().first);
+            lis.pop_back();
+        }
+        lis.push_front(make_pair(key,value));
+        mp[key]=lis.begin();
+    }
+private: 
+    int capacity;
+    list<pair<int,int> >lis;
+    unordered_map<int,list<pair<int,int> >::iterator >mp;
 };
 ```
 
