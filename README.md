@@ -39,3 +39,41 @@ public:
     }
 };
 ```
+
+---
+---
+
+
+### 2, Leetcode440 字典序的第K小数字  
++ 题意：问1到N，按照字典序排序，第K大的是？  
++ 思路：一层一层的试探。  这个题第一次做估计还是有点难的。
+
+---
+---
+### 3, 135. 分发糖果   
++ 题意：有N个人站成一排，每个人有个评分，现在要根据评分发糖果，相邻的人，如果评分高，则糖果多，问至少发多少个糖果。  
++ 思路：显然可以差分约束，但是现在只有相邻的约束，显然没必要那么麻烦。我们扫描两遍即可，左边一遍得到一个res1[]，表示至少多少可以满足左边的约束，再从右边扫一遍，在res1基础上得到res2，则res2可以满足左边和右边的约束。  
+```
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int N=ratings.size(),sum=0;
+        vector<int>res;
+        res.resize(N);
+        res[0]=1;
+        for(int i=1;i<N;i++) {
+            res[i]=ratings[i]>ratings[i-1]?res[i-1]+1:1;
+        }
+        for(int i=N-2;i>=0;i--){
+            res[i]=ratings[i]>ratings[i+1]?max(res[i+1]+1,res[i]):res[i];
+        }
+        for(auto i:res) sum+=i;
+        return sum;
+    }
+};
+```
+
+
+
+
+
