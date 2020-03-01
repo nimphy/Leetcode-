@@ -6,7 +6,8 @@ Leetcode字节跳动面试题，按出现次数排序
 + 思路：按时间排序，并查集处理。  
 + 考点：排序二维数组，并查集。  
 + 坑点：要给fa定义大小，即fa.resize(N)，不然会：
-   > Line 923: Char 34: runtime error: reference binding to null pointer of type  
+   > Line 923: Char 34: runtime error: reference binding to null pointer of type   
++ static：[关于static](https://blog.csdn.net/weixin_40311211/article/details/82851300)
 ```
 class Solution {
 public:
