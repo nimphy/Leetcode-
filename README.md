@@ -129,6 +129,35 @@ public:
     }
 };
 ```
+---
+### 6, Leetcode42. 接雨水 
++ 题意：给定一排柱子，对应的高度，问集雨水的容量。 
++ 思路：算出每个柱子上面能集多少雨水，分别算贡献，+=min(左边最高，右边最高)-height[i]；   
+```
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int SZ=height.size(),res=0;
+        if(SZ==0) return 0;
+        vector<int>L,R;
+        L.resize(SZ);
+        R.resize(SZ);
+        L[0]=height[0]; R[SZ-1]=height[SZ-1];
+        for(int i=1;i<SZ;i++) L[i]=max(L[i-1],height[i]);
+        for(int i=SZ-2;i>=0;i--) R[i]=max(R[i+1],height[i]);
+        for(int i=0;i<SZ;i++) res+=min(R[i],L[i])-height[i];
+        return res;
+    }
+};
+```
+---
+### 7, Leetcode4. 寻找两个有序数组的中位数
++ 题意：两个有序数组，让你找中位数。  
++ 思路：显然是二分，但是普通的二分已经满足不了了，还得加一点小技巧---迭代逼近。假设第一个数组是A[]，第二个数组是B[]，找第K个数，那么我们各自看右移K/2个数字后谁小，那么它就右移K/2位，直到找到中位数。  
+
+```
+为什么下标要从0开始啊。我好不习惯。
+```
 
 
 
