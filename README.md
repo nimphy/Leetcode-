@@ -1,5 +1,69 @@
 # Leetcode-
-Leetcode字节跳动面试题，按出现次数排序
+Leetcode字节跳动面试题，按指数排序
+---
+### 1, Leetcode1. 两数之和 
++ 题意：给定N个数，以及一个target，问是否有两个数的和为target。  
++ 思路：O(N),扫描一遍，以及扫到的存在map里，就OK了。  
+```
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> res;
+        unordered_map<int,int>mp;
+        for(int i=0;i<nums.size();i++){
+            int x=target-nums[i];
+            if(mp.find(x)!=mp.end()){
+                res.push_back(mp[x]);
+                res.push_back(i);
+                break;
+            }
+            mp[nums[i]]=i;
+        }
+        return res;
+    }
+};
+```
+---
+### 2, Leetcode2. 两数相加 
++ 题意：用倒序的链表表示数字，求和。 
++ 思路：用一个数表示进位，如果两个都为null就不再加，最后特判是否还要进位。 
+
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *res=new ListNode(0);
+        ListNode *cur=res;
+        int sum=0;
+        while(l1!=NULL||l2!=NULL){
+            if(l1!=NULL) {
+                sum+=l1->val;
+                l1=l1->next;
+            }
+            if(l2!=NULL) {
+                sum+=l2->val;
+                l2=l2->next;
+            }
+            cur->next=new ListNode(sum%10);
+            cur=cur->next;
+            sum=sum/10;
+        }
+        if(sum!=0) cur->next=new ListNode(sum);
+        return res->next;
+    }
+};
+```
+
+
+
 ---
 ### 1, Leetcode1101 彼此熟识的最早时间
 + 题意：N个人，给定一些时间点，双方成为朋友。规定朋友的朋友就是自己的朋友，问N个人最早变为朋友的时间。 
