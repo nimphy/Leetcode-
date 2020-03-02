@@ -61,6 +61,92 @@ public:
     }
 };
 ```
+---
+### 3, Leetcode3. 无重复字符的最长子串 
++ 题意： 求最长的长度，无重复出现相同字符。 
++ 思路：保存每个字符上一次出现的位置即可，map。 
+```
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int L=s.length(),res=0,pre=-1;
+        unordered_map<int,int>mp;
+        for(int i=0;i<L;i++){
+            if(mp.find(s[i])!=mp.end())pre=max(pre,mp[s[i]]);
+            res=max(res,i-pre);
+            mp[s[i]]=i;
+        }
+        return res;
+    }
+};
+```
+---
+### 4, Leetcode5. 最长回文子串
++ 题意：求最长的回文串长度。  
++ 思路：DP，马拉车，回文自动机。 这里简单DP一下。 
+```
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int dp[1010][1010];
+        int L=s.length(),res=0,a,b;
+        string ans="";
+        for(int i=0;i<L;i++) dp[i][i]=1;
+        for(int i=0;i<L-1;i++) dp[i][i+1]=(s[i]==s[i+1]);
+        for(int i=L-1;i>=0;i--){
+            for(int j=i+2;j<L;j++){
+                dp[i][j]=dp[i+1][j-1]&&(s[i]==s[j]);
+            }
+        }
+        for(int i=0;i<L;i++)
+         for(int j=i;j<L;j++)
+          if(dp[i][j]&&res<j-i+1) {
+            res=j-i+1;
+            a=i;b=j;
+        }
+        for(int i=a;i<=b;i++) ans+=s[i];
+        return ans;
+    }
+};
+```
+---
+### 5, Leetcode206. 反转链表 
++ 题意：你可以迭代或递归地反转链表。你能否用两种方法解决这道题？  
++ 思路: 
+```
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* pre=NULL,*prepre=NULL;
+        while(head!=NULL){
+            if(pre!=NULL) pre->next=prepre;
+            prepre=pre;
+            pre=head;
+            head=head->next;
+        }
+        if(pre!=NULL) pre->next=prepre;
+        return pre;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
