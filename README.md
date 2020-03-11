@@ -285,6 +285,36 @@ public:
 };
 ```
 ---
+### 13,215. 数组中的第K个最大元素
++ 题意：乱序的N个数，找从到到小的第K个数。
++ 思路：即sort从小到大的第N-K+1大的数。显然可以用sort或者维护一个大小为K的堆。 也可以用快排的思想O(N)来做。每次大约减少一半的数据量O(N+N/2+N/4....)~=O(2N)~=O(N);
++ 技巧：理论的时间在N~N^2间，防止被卡，可以每次随机取一个数，这个数和第一个数交换位置，这样可以加大随机性。实现的话就是每次L+一个范围内随机数。
+```
+class Solution {
+public:
+    int solve(vector<int>&nums,int L,int R,int k)
+    {
+        if(L==R) return nums[L];
+        int pos=rand()%(R-L+1)+L;
+        swap(nums[pos],nums[L]);
+        int x=nums[L],i=L,j=R;
+        while(i<j){
+           while(i<j&&nums[j]>=x)  j--;
+           if(i<j) nums[i]=nums[j];
+           while(i<j&&nums[i]<=x)  i++;
+           if(i<j) nums[j]=nums[i];
+        }
+        if(i==j) nums[i]=x;
+        if(i-L+1==k) return x;
+        if(i-L+1>k) return solve(nums,L,i-1,k);
+        return solve(nums,i+1,R,k-(i-L+1));
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        return solve(nums,0,nums.size()-1,nums.size()+1-k);
+    }
+};
+```
+
 
 
 
