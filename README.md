@@ -262,7 +262,29 @@ private:
     unordered_map<int,list<pair<int,int> >::iterator >mp;
 };
 ```
-
+---
+### 12,48. 旋转图像  
++ 题意：给定NxN的矩阵，设计一种算法，使得原地旋转90°(顺时针)，
++ 思路：显然可以以4为单位来旋转，但是需要些时间来推。这里用了另外一种方法：先按对角线翻转，然后按中位线翻转。可以自己动手把“鼠标垫”用来模拟一下，正的鼠标垫翻转到反面，然后横向翻回来，正好顺时针90°。
+```
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int L=matrix.size();
+        for(int i=0;i<L;i++){
+            for(int j=0;j<L-i;j++){
+                swap(matrix[i][j],matrix[L-j-1][L-i-1]);
+            }
+        }
+        for(int i=0;i<L/2;i++){
+            for(int j=0;j<L;j++){
+                swap(matrix[i][j],matrix[L-i-1][j]);
+            }
+        }
+    }
+};
+```
+---
 
 
 
